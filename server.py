@@ -25,13 +25,13 @@ while True:
         # Receive data from client
         while True:
             # Determine data buffer size (char)
-            data = connection.recv(1024)
+            data = connection.recv(1024).decode('utf-8')
             print('Received: ', data)
 
             # If server received data then send it back to client
             if data:
                 print('Sending data back to the client')
-                connection.sendall(data)
+                connection.send(data.upper().encode('utf-8'))
 
             # If no data from client then stop waiting
             else:
