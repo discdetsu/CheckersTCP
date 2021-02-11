@@ -1,5 +1,4 @@
 import socket
-from game import Player
 from monster import Monster
 from _thread import *
 import threading
@@ -7,6 +6,8 @@ import pickle
 
 HOST = 'localhost'
 PORT = 5555
+
+print('Starting Server...')
 
 # Socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -19,38 +20,40 @@ except socket.error as e:
 
 # Waiting for 2 players
 s.listen(2)
-print("Waiting for a connection, Server Started")
-players = []
+print(f'Listening for connections on port {PORT}')
 
+while True:
+    p1Connection, p1Address = s.accept()
+    if p1Connection:
+        print(f'Player 1 connected form port {p1Address}')
+        break
 
-def client_thread(conn):
-    conn.send(str.encode('Connected to the server!'))
-    reply = ''
-    while True:
-        try:
-            data = conn.recv(2048)
-            reply = data.decode('utf-8')
-
-            if not data:
-                print('Disconnected')
-                break
-            else:
-                print(f'Received: {reply}')
-                print(f'Sending: {reply}')
-
-            conn.sendall(str.encode(reply))
-        except:
-            break
-    print('Lost connection')
-    conn.close()
+while True:
+    p2Connection, p2Address = s.accept()
+    if p2Address != p1Address:
+        print(f'Player 1 connected form port {p2Address}')
+        break
 
 while True:
 
-    connection, clientAddress = s.accept()
-    print(f'Connected by: {clientAddress}')
+    try:
+        p1_data = pickle.loads(p1Connection.recv(2048))
+        print(f'Player 1 {p1_data}')
+    except socket.error as e:
+        print(e)
 
-    # data = connection.recv(2048)
-    # monster = pickle.loads(data)
+    try:
+        p2_data = pickle.loads(p2Connection.recv(2048))
+        print(f'Player 2 {p2_data}')
+    except socket.error as e:
+        print(e)
 
-    start_new_thread(client_thread, (connection,))
+    p2Connection.send(str(p1_data).encode('utf-8'))
+    p1Connection.send(str(p2_data).encode('utf-8'))
+    print('Sending start to both players')
+
+    break
+
+
+
 

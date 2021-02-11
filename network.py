@@ -6,10 +6,10 @@ class Network:
         self.server = 'localhost'
         self.port = 5555
         self.addr = (self.server, self.port)
-        self.pos = self.connect()
+        self.id = self.connect()
 
     def getPos(self):
-        return self.pos
+        return self.id
 
     def connect(self):
         try:

@@ -1,5 +1,12 @@
 from monster import *
 
+class Game:
+    def __init__(self, id):
+        self.p1Ready = False
+        self.p2Ready = False
+        self.ready = False
+        self.id = id
+
 # Create Monster
 print('===Player1===')
 name1 = input('''Pleas enter your monster's name: ''')
