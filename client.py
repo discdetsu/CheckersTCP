@@ -1,4 +1,9 @@
 import socket
+from monster import Monster
+import pickle
+
+print('!!!!   Monster Fight  !!!!')
+print('Create monster!')
 
 HOST = 'localhost'
 PORT = 5555
@@ -13,14 +18,23 @@ s.connect((HOST, PORT))
 
 running = True
 msg = ''
-while running:
-    msg = input("Please type message or [q]uit: ")
-    if msg == 'q':
-        break
-    else:
-        # Send data to server
-        s.send(msg.encode('utf-8'))
+name = input('''Pleas enter your monster's name: ''')
+hp = int(input('Health point: '))
+atk = int(input('Attack damage: '))
+deff = int(input('Defense point: '))
 
-    # Received data from the server
-    data = s.recv(1024).decode('utf-8')
-    print('Received: ', data)
+monster = Monster(name, hp, atk, deff)
+data_stream = pickle.dumps(monster)
+s.send(data_stream)
+
+# while running:
+#
+#     if msg == 'q':
+#         break
+#     else:
+#         # Send data to server
+#         s.send(msg.encode('utf-8'))
+#
+#     # Received data from the server
+#     data = s.recv(1024).decode('utf-8')
+#     print('Received: ', data)

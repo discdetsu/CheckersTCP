@@ -3,34 +3,24 @@ class Monster:
     def __init__(self, name, hp, Atk, Def):
         self.name = name
         self.hp = hp
-        self.fullHp = hp
+        self.fullHp = self.hp
         self.Atk = Atk
         self.Def = Def
-
-    def getName(self):
-        return self.name
-
-    def getHp(self):
-        return self.hp
-
-    def getAtk(self):
-        return self.Atk
-
-    def getDef(self):
-        return self.Def
 
     def getFullHp(self):
         return self.fullHp
 
-    def setHp(self, hp):
-        self.hp += hp
+    def attack(self, monster):
 
-    def attack(self):
-
-        if ((self.getHp() + self.getDef()) - self.getAtk()) < 0:
-            self.setHp(0)
+        if self.Atk >= (monster.hp + monster.Def):
+            monster.hp = 0
         else:
-            self.setHp((self.getHp() + self.getDef()) - self.getAtk())
+            if (monster.hp + monster.Def) - self.Atk >= monster.getFullHp():
+                monster.Def -= self.Atk
+            else:
+                monster.hp = (monster.hp + monster.Def) - self.Atk
+
+
 
     def heal(self, amount):
         if amount > self.getFullHp():
@@ -40,9 +30,7 @@ class Monster:
 
     def isDead(self):
 
-        hp = self.getHp()
-
-        if hp == 0:
+        if self.hp == 0:
             dead = True
         else:
             dead = False
@@ -50,5 +38,5 @@ class Monster:
         return dead
 
     def __repr__(self):
-        return f'Monster {self.getName()} Atk: {self.getAtk()} Def: {self.getDef()} ' \
-               f'hp: {self.getHp()}/{self.getFullHp()}'
+        return f'Monster {self.name} Atk: {self.Atk} Def: {self.Def} ' \
+               f'hp: {self.hp}/{self.getFullHp()}'
