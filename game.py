@@ -1,26 +1,73 @@
 from monster import *
-import tkinter as tk
+
+# Create Monster
+print('===Player1===')
+name1 = input('''Pleas enter your monster's name: ''')
+hp1 = int(input('Health point: '))
+atk1 = int(input('Attack damage: '))
+deff1 = int(input('Defense point: '))
+m1 = Monster(name1, hp1, atk1, deff1)
+print('')
+print('===Player2===')
+name2 = input('''Pleas enter your monster's name: ''')
+hp2 = int(input('Health point: '))
+atk2 = int(input('Attack damage: '))
+deff2 = int(input('Defense point: '))
+m2 = Monster(name2, hp2, atk2, deff2)
+print('')
 
 
-class Game:
+# Turn count
+turn = 1
+round = 1
 
-    def __init__(self, player1, player2):
-        self.turn = 1
-        self.player1 = player1
-        self.player2 = player2
+# Game loop
 
-    def changeTurn(self):
-        self.turn *= -1
+while True:
 
-    def checkWin(self, player1, player2):
-        if (player1.isDead()):
-            return player2
-        else:
-            return player1
+    print(f'Round: {round}')
 
+    if turn == 1:
+        print(f'>>> Monster {m1.name} turn <<<')
+        action = input('Please enter skill A=attack H=heal: ')
+        if action == 'A':
+            m1.attack(m2)
+        elif action == 'H':
+            heal_amount = int(input('Please enter recovery hp[1-10]: '))
+            if heal_amount < 1 or heal_amount > 10:
+                continue
+            m1.heal(heal_amount)
+        print(m1)
+        print(m2)
+        turn *= -1
 
-class Player:
+        if m2.isDead():
+            print(f'The winner is ........ {m1}')
+            break
 
-    def __init__(self, monster):
-        self.currentTurn = False
-        self.monster = monster
+    elif turn == -1:
+        print(f'>>> Monster {m2.name} turn <<<')
+        action = input('Please enter skill A=attack H=heal: ')
+        if action == 'A':
+            m2.attack(m1)
+        elif action == 'H':
+            heal_amount = int(input('Please enter recovery hp[1-10]: '))
+            if heal_amount < 1 or heal_amount > 10:
+                continue
+            m2.heal(heal_amount)
+        print(m1)
+        print(m2)
+        turn *= -1
+
+        if m2.isDead():
+            print(f'The winner is ........ {m1.name}')
+            break
+
+    round += 1
+    print('')
+
+# class Player:
+#
+#     def __init__(self, monster):
+#         self.currentTurn = False
+#         self.monster = monster

@@ -24,9 +24,9 @@ class Monster:
 
     def heal(self, amount):
         if amount > self.getFullHp():
-            self.setHp(self.getFullHp())
+            self.hp = self.getFullHp()
         else:
-            self.setHp(amount)
+            self.hp += amount
 
     def isDead(self):
 
@@ -36,6 +36,7 @@ class Monster:
             dead = False
 
         return dead
+
 
     def __repr__(self):
         return f'Monster {self.name} Atk: {self.Atk} Def: {self.Def} ' \

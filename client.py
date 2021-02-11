@@ -16,16 +16,20 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Connect to the server
 s.connect((HOST, PORT))
 
-running = True
-msg = ''
 name = input('''Pleas enter your monster's name: ''')
 hp = int(input('Health point: '))
 atk = int(input('Attack damage: '))
 deff = int(input('Defense point: '))
 
-monster = Monster(name, hp, atk, deff)
-data_stream = pickle.dumps(monster)
-s.send(data_stream)
+# monster = Monster(name, hp, atk, deff)
+# data_stream = pickle.dumps(monster)
+# s.send(data_stream)
+
+def main():
+    # Game loop
+    running = True
+
+
 
 # while running:
 #
