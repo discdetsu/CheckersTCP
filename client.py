@@ -60,23 +60,9 @@ print(enemy_ready_message)
 running = True
 
 while running:
+
     action = input('Please enter your action: ')
     s.send(action.encode(FORMAT))
     enemy_action = s.recv(1024).decode(FORMAT)
     print(f'Received: {enemy_action}')
 
-# data = pickle.dumps(monster)
-# s.send(data)
-
-
-# while running:
-#
-#     if msg == 'q':
-#         break
-#     else:
-#         # Send data to server
-#         s.send(msg.encode(FORMAT))
-#
-#     # Received data from the server
-#     data = s.recv(1024).decode(FORMAT)
-#     print('Received: ', data)

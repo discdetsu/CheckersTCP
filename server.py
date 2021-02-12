@@ -63,26 +63,55 @@ while True:
     break
 
 
-# Game data
+# Event loop
 turn = 1
 roundCount = 1
 
 while True:
 
-    try:
-        p1_action = p1Connection.recv(2048).decode(FORMAT)
-        print(f'Received: {p1_action}')
-    except:
-        pass
+    if turn == 1:
 
-    try:
-        p2_action = p2Connection.recv(2048).decode(FORMAT)
-        print(f'Received: {p2_action}')
-    except:
-        pass
+        try:
+            p1_action = p1Connection.recv(2048).decode(FORMAT)
+            print(f'Received: {p1_action}')
+        except:
+            pass
 
-    p2Connection.send(str(p1_action).encode(FORMAT))
-    p1Connection.send(str(p2_action).encode(FORMAT))
+        if p1_action == 'A':
+            print(f'Player 1 Attack with damage dealt: {p1_monster.Atk}')
+            p1_monster.attack(p2_monster)
+        # elif p1_action[0] == 'H':
+        #     amount = p1_action.split(' ')[1]
+        #     print(f'Player 1 Heal with amount: {amount}')
+        #     p1_monster.heal(amount)
+        turn *= -1
+
+        if p2_monster.isDead():
+            print(f'The winner is ........ {p1_monster}')
+            break
+
+    if turn == -1:
+        try:
+            p2_action = p2Connection.recv(2048).decode(FORMAT)
+            print(f'Received: {p2_action}')
+        except:
+            pass
+
+        if p2_action == 'A':
+            print(f'Player 2 Attack with damage dealt: {p2_monster.Atk}')
+            p2_monster.attack(p1_monster)
+        # elif p2_action[0] == 'H':
+        #     amount = p1_action.split(' ')[1]
+        #     print(f'Player 2 Heal with amount: {amount}')
+        #     p2_monster.heal(amount)
+        turn *= -1
+
+        if p1_monster.isDead():
+            print(f'The winner is ........ {p2_monster}')
+            break
+
+    p2Connection.send(str(p1_monster).encode(FORMAT))
+    p1Connection.send(str(p2_monster).encode(FORMAT))
 
 
 p1Connection.close()

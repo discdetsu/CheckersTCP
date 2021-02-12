@@ -1,11 +1,15 @@
 class Monster:
 
     def __init__(self, name, hp, Atk, Def):
+        self.turn = 1
         self.name = name
         self.hp = hp
         self.fullHp = self.hp
         self.Atk = Atk
         self.Def = Def
+
+    def changeTurn(self):
+        self.turn *= -1
 
     def getFullHp(self):
         return self.fullHp
