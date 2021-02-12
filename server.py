@@ -3,6 +3,7 @@ from monster import Monster
 from _thread import *
 import threading
 import pickle
+from time import *
 
 HOST = 'localhost'
 PORT = 5555
@@ -34,16 +35,21 @@ while True:
         print(f'Player 1 connected form port {p2Address}')
         break
 
+print('Both players are connected')
+sleep(1)
+print('Waiting for players to ready up...')
+s.setblocking(False)
+
 while True:
 
     try:
-        p1_data = pickle.loads(p1Connection.recv(2048))
+        p1_data = p1Connection.recv(2048)
         print(f'Player 1 {p1_data}')
     except socket.error as e:
         print(e)
 
     try:
-        p2_data = pickle.loads(p2Connection.recv(2048))
+        p2_data = p2Connection.recv(2048)
         print(f'Player 2 {p2_data}')
     except socket.error as e:
         print(e)
@@ -54,6 +60,29 @@ while True:
 
     break
 
+turn = 1
+round = 1
 
+while True:
+
+    # Receive command
+    try:
+        p1_data = p1Connection.recv(2048).decode('utf-8')
+    except:
+        pass
+
+    try:
+        p2_data = p2Connection.recv(2048).decode('utf-8')
+    except:
+        pass
+
+    p2Connection.send(str(p1_data).encode('utf-8'))
+    p1Connection.send(str(p2_data).encode('utf-8'))
+
+
+p1Connection.close()
+p2Connection.close()
+
+print('Closed sockets')
 
 
