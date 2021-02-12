@@ -14,7 +14,6 @@ FORMAT = 'utf-8'
 # socket.SOCK_STREAM = TCP
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-
 # Connect to the server
 s.connect((HOST, PORT))
 print('Connected to server')
@@ -22,7 +21,7 @@ print('Create monster!')
 # data = s.recv(2048).decode(FORMAT)
 # print(data)
 
-#UI
+# UI
 # def onclick1():
 #     monster.Atk
 #
@@ -60,21 +59,14 @@ print(enemy_ready_message)
 # Game loop
 running = True
 
-
-
 while running:
-
     action = input('Please enter your action: ')
-    if action == 'H':
-        amount = int(input('Please enter amount: '))
-        s.send(str(amount).encode(FORMAT))
     s.send(action.encode(FORMAT))
     enemy_action = s.recv(1024).decode(FORMAT)
-    print(f'Received: {action}')
+    print(f'Received: {enemy_action}')
 
 # data = pickle.dumps(monster)
 # s.send(data)
-
 
 
 # while running:

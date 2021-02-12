@@ -41,21 +41,18 @@ sleep(1)
 print('Waiting for players to ready up...')
 s.setblocking(False)
 
-players = []
 
 while True:
 
     try:
         p1_monster = pickle.loads(p1Connection.recv(2048))
         print(f'Player 1 {p1_monster}')
-        players.append(p1_monster)
     except socket.error as e:
         print(e)
 
     try:
         p2_monster = pickle.loads(p2Connection.recv(2048))
         print(f'Player 2 {p2_monster}')
-        players.append(p2_monster)
     except socket.error as e:
         print(e)
 
@@ -75,14 +72,8 @@ while True:
     try:
         p1_action = p1Connection.recv(2048).decode(FORMAT)
         print(f'Received: {p1_action}')
-        if p1_action == 'A':
-            p1_monster.attck(p2_monster)
-        elif p1_action == 'H':
-            amount = int(p1Connection.recv(2048).decode(FORMAT))
-            p1_monster.heal(amount)
     except:
         pass
-
 
     try:
         p2_action = p2Connection.recv(2048).decode(FORMAT)
