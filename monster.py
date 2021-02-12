@@ -39,5 +39,5 @@ class Monster:
 
 
     def __repr__(self):
-        return f'Monster {self.name} Atk: {self.Atk} Def: {self.Def} ' \
+        return f'"{self.name}" -> Atk: {self.Atk} Def: {self.Def} ' \
                f'hp: {self.hp}/{self.getFullHp()}'

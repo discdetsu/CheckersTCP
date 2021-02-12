@@ -7,6 +7,7 @@ from time import *
 
 HOST = 'localhost'
 PORT = 5555
+FORMAT = 'utf-8'
 
 print('Starting Server...')
 
@@ -32,7 +33,7 @@ while True:
 while True:
     p2Connection, p2Address = s.accept()
     if p2Address != p1Address:
-        print(f'Player 1 connected form port {p2Address}')
+        print(f'Player 2 connected form port {p2Address}')
         break
 
 print('Both players are connected')
@@ -40,44 +41,57 @@ sleep(1)
 print('Waiting for players to ready up...')
 s.setblocking(False)
 
+players = []
+
 while True:
 
     try:
-        p1_data = p1Connection.recv(2048)
-        print(f'Player 1 {p1_data}')
+        p1_monster = pickle.loads(p1Connection.recv(2048))
+        print(f'Player 1 {p1_monster}')
+        players.append(p1_monster)
     except socket.error as e:
         print(e)
 
     try:
-        p2_data = p2Connection.recv(2048)
-        print(f'Player 2 {p2_data}')
+        p2_monster = pickle.loads(p2Connection.recv(2048))
+        print(f'Player 2 {p2_monster}')
+        players.append(p2_monster)
     except socket.error as e:
         print(e)
 
-    p2Connection.send(str(p1_data).encode('utf-8'))
-    p1Connection.send(str(p2_data).encode('utf-8'))
+    p2Connection.send(str('Your enemy is ready').encode(FORMAT))
+    p1Connection.send(str('Your enemy is ready').encode(FORMAT))
     print('Sending start to both players')
 
     break
 
+
+# Game data
 turn = 1
-round = 1
+roundCount = 1
 
 while True:
 
-    # Receive command
     try:
-        p1_data = p1Connection.recv(2048).decode('utf-8')
+        p1_action = p1Connection.recv(2048).decode(FORMAT)
+        print(f'Received: {p1_action}')
+        if p1_action == 'A':
+            p1_monster.attck(p2_monster)
+        elif p1_action == 'H':
+            amount = int(p1Connection.recv(2048).decode(FORMAT))
+            p1_monster.heal(amount)
     except:
         pass
 
+
     try:
-        p2_data = p2Connection.recv(2048).decode('utf-8')
+        p2_action = p2Connection.recv(2048).decode(FORMAT)
+        print(f'Received: {p2_action}')
     except:
         pass
 
-    p2Connection.send(str(p1_data).encode('utf-8'))
-    p1Connection.send(str(p2_data).encode('utf-8'))
+    p2Connection.send(str(p1_action).encode(FORMAT))
+    p1Connection.send(str(p2_action).encode(FORMAT))
 
 
 p1Connection.close()
