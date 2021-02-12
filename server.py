@@ -5,7 +5,7 @@ import threading
 import pickle
 from time import *
 
-HOST = 'localhost'
+HOST = '158.108.213.72'
 PORT = 5555
 FORMAT = 'utf-8'
 

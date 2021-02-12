@@ -6,7 +6,7 @@ from tkinter import *
 
 print('!!!!   Monster Fight  !!!!')
 
-HOST = 'localhost'
+HOST = '158.108.213.72'
 PORT = 5555
 FORMAT = 'utf-8'
 
@@ -20,8 +20,7 @@ print('Connected to server')
 print('Create monster!')
 # data = s.recv(2048).decode(FORMAT)
 # print(data)
-window = Tk()
-window.title('Monster Fight')
+
 
 # Create monster object
 name = input('''Please enter your monster's name: ''')
@@ -46,10 +45,10 @@ while running:
     s.send(action.encode(FORMAT))
     enemy_status = pickle.loads(s.recv(2048))
     print(f'Enemy Monster Status: {enemy_status}')
-    if enemy_status.win == True:
-        print('You lose!')
-        break
-    else:
-        print('You win!')
-        break
+    # if enemy_status.isDead():
+    #     print('You win!')
+    #     break
+    # else:
+    #     print('You lose!')
+    #     break
 
