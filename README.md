@@ -1,4 +1,8 @@
-# CheckersTCP
+# MonsterFightTCP
 
 ## Description
-Checkers game with socket programming in Python
+Turn-based RPG Monster Fighting
+
+***
+This project is for education only.\
+Kasetsart University
