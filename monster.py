@@ -1,11 +1,15 @@
 class Monster:
 
     def __init__(self, name, hp, Atk, Def):
+        self.turn = 1
         self.name = name
         self.hp = hp
         self.fullHp = self.hp
         self.Atk = Atk
         self.Def = Def
+
+    def changeTurn(self):
+        self.turn *= -1
 
     def getFullHp(self):
         return self.fullHp
@@ -39,5 +43,5 @@ class Monster:
 
 
     def __repr__(self):
-        return f'Monster {self.name} Atk: {self.Atk} Def: {self.Def} ' \
+        return f'"{self.name}" -> Atk: {self.Atk} Def: {self.Def} ' \
                f'hp: {self.hp}/{self.getFullHp()}'
